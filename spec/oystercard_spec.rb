@@ -46,41 +46,19 @@ describe Card do
 
   it 'expect a card not to be "in use" once touched out' do
     subject.touch_in(station)
-    subject.touch_out(Card::MINIMUM_FARE, station)
+    subject.touch_out(station)
     expect(subject.in_journey?).to be false
   end
 
   it 'expect user to not be able to touch in when balance is less than the minimum fare' do
     card2 = Card.new
+
     expect{ card2.touch_in(station)}.to raise_error ("Insufficient funds")
   end
 
   it 'expect a "touch_out" to deduct the minimum fare' do
-    expect{subject.touch_out(Card::MINIMUM_FARE, station)}.to change(subject, :balance).by -Card::MINIMUM_FARE
-  end
-
-  it 'expects card to store entry station upon touching in' do
-    expect(subject.touch_in(station)).to eq (subject.journey[:entry])
-  end
-
-  it 'new instance of a card to have no journeys saved' do
-    expect(subject.journey).to be {}
-  end
-
-  it 'expect card to store entry and exit station' do
     subject.touch_in(station_2)
-    subject.touch_out(1, station)
-    expect(subject.journey[:exit]).to eq (station.name)
-  end
-
-
-
-  it 'expects journey to hold both entry and exit stations' do
-    allow(station_2).to receive(:name).and_return(station_2)
-    subject.touch_in(station_2)
-    allow(station).to receive(:name).and_return(station)
-    subject.touch_out(1, station)
-    expect(subject.journey).to eq ({:entry => station_2, :exit => station})
+    expect{subject.touch_out(station)}.to change(subject, :balance).by -Card::MINIMUM_FARE
   end
 
 end
