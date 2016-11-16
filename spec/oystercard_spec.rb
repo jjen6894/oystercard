@@ -2,8 +2,10 @@ require 'oystercard'
 
 describe Card do
 
-let(:station)  { double("Algate") }
-let(:station_2)  { double("waterloo") }
+
+  let( :station ){ double( :station, :name => :aldgate, :zone => 1 ) }
+  let( :station_2 ){ double( :station_2, :name => :waterloo, :zone => 1 ) }
+
   before(Card) do
     subject.top_up(5)
   end
@@ -68,13 +70,15 @@ let(:station_2)  { double("waterloo") }
   it 'expect card to store entry and exit station' do
     subject.touch_in(station_2)
     subject.touch_out(1, station)
-    expect(subject.journey[:exit]).to eq (station)
+    expect(subject.journey[:exit]).to eq (station.name)
   end
 
 
 
   it 'expects journey to hold both entry and exit stations' do
+    allow(station_2).to receive(:name).and_return(station_2)
     subject.touch_in(station_2)
+    allow(station).to receive(:name).and_return(station)
     subject.touch_out(1, station)
     expect(subject.journey).to eq ({:entry => station_2, :exit => station})
   end

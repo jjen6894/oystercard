@@ -27,12 +27,12 @@ attr_reader :balance,:maximum_balance,:in_journey,:journey
 
   def touch_in(station)
     raise "Insufficient funds" if @balance < MINIMUM_FARE
-    @journey[:entry] = station
+    @journey[:entry] = station.name
   end
 
   def touch_out(fare, station)
     deduct(fare)
-    @journey[:exit] = station
+    @journey[:exit] = station.name
     @journeys << @journey
   end
 
