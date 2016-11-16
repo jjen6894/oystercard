@@ -4,14 +4,15 @@ STARTING_BALANCE = 0
 MAXIMUM_BALANCE = 90
 MINIMUM_FARE = 1
 
-attr_reader :balance,:maximum_balance,:in_journey,:entry_station
+attr_reader :balance,:maximum_balance,:in_journey,:journey
 
 
   def initialize(balance = STARTING_BALANCE, maximum_balance = MAXIMUM_BALANCE, in_journey = false)
     @balance = balance
     @maximum_balance = maximum_balance
     @in_journey = in_journey
-    @entry_station = []
+    @journeys = []
+    @journey = {}
   end
 
   def top_up(value)
@@ -21,17 +22,18 @@ attr_reader :balance,:maximum_balance,:in_journey,:entry_station
 
 
   def in_journey?
-    @entry_station.any?
+    (@journey.size)% 2 != 0
   end
 
   def touch_in(station)
     raise "Insufficient funds" if @balance < MINIMUM_FARE
-    @entry_station << station
+    @journey[:entry] = station
   end
 
-  def touch_out(fare)
+  def touch_out(fare, station)
     deduct(fare)
-    @entry_station.clear
+    @journey[:exit] = station
+    @journeys << @journey
   end
 
 private

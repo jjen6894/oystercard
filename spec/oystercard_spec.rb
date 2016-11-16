@@ -2,7 +2,8 @@ require 'oystercard'
 
 describe Card do
 
-let(:station)  { double("station") }
+let(:station)  { double("Algate") }
+let(:station_2)  { double("waterloo") }
   before(Card) do
     subject.top_up(5)
   end
@@ -43,8 +44,8 @@ let(:station)  { double("station") }
 
   it 'expect a card not to be "in use" once touched out' do
     subject.touch_in(station)
-    subject.touch_out(Card::MINIMUM_FARE)
-    expect(subject.in_journey?).to be false 
+    subject.touch_out(Card::MINIMUM_FARE, station)
+    expect(subject.in_journey?).to be false
   end
 
   it 'expect user to not be able to touch in when balance is less than the minimum fare' do
@@ -53,10 +54,29 @@ let(:station)  { double("station") }
   end
 
   it 'expect a "touch_out" to deduct the minimum fare' do
-    expect{subject.touch_out(Card::MINIMUM_FARE)}.to change(subject, :balance).by -Card::MINIMUM_FARE
+    expect{subject.touch_out(Card::MINIMUM_FARE, station)}.to change(subject, :balance).by -Card::MINIMUM_FARE
   end
 
   it 'expects card to store entry station upon touching in' do
-    expect(subject.touch_in(station)).to eq (subject.entry_station)
+    expect(subject.touch_in(station)).to eq (subject.journey[:entry])
   end
+
+  it 'new instance of a card to have no journeys saved' do
+    expect(subject.journey).to be {}
+  end
+
+  it 'expect card to store entry and exit station' do
+    subject.touch_in(station_2)
+    subject.touch_out(1, station)
+    expect(subject.journey[:exit]).to eq (station)
+  end
+
+
+
+  it 'expects journey to hold both entry and exit stations' do
+    subject.touch_in(station_2)
+    subject.touch_out(1, station)
+    expect(subject.journey).to eq ({:entry => station_2, :exit => station})
+  end
+
 end
