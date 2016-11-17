@@ -27,6 +27,7 @@ attr_reader :balance, :entry_station, :exit_station, :journeys
   def touch_in(xyz)
     fail "Card cannot be touched in: below £#{MINIMUM_BALANCE}" if minimum_balance?
     @entry_station = xyz
+
   end
 
   def touch_out(abc)
