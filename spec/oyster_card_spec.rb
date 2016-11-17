@@ -1,5 +1,6 @@
 require 'oyster_card'
 
+
 describe Oystercard do
   subject(:oyster) { described_class.new }
   let(:entry_station) { double :station }
@@ -102,19 +103,11 @@ describe Oystercard do
         expect(oyster.entry_station).to eq nil
       end
 
-      it 'should record one journey' do
-        expect(oyster.journeys).to include journey
-      end
+    
 
     end
 
 
-    context "#journeys" do
 
-      it 'should start off as an empty array' do
-        expect(oyster.journeys).to eq []
-      end
-
-    end
 
 end
