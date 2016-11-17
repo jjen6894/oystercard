@@ -77,13 +77,6 @@ describe Oystercard do
       it 'should show whether in_journey?' do
         expect(oyster.in_journey?).to be false
       end
-
-      it 'should show true when in_journey? after touching in' do
-        oyster.top_up(described_class::MAXIMUM_BALANCE)
-        oyster.touch_in(entry_station)
-        expect(oyster.in_journey?).to be true
-      end
-
     end
 
 
@@ -103,7 +96,7 @@ describe Oystercard do
         expect(oyster.entry_station).to eq nil
       end
 
-    
+
 
     end
 

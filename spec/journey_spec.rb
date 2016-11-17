@@ -20,7 +20,7 @@ describe Journey do
 
     context "in_journey?" do
 
-    it 'should show whether in_journey?' do
+    it 'should show whether finish?' do
       expect(subject.finish?).to be false
     end
 
