@@ -4,6 +4,7 @@ attr_reader :balance, :entry_station, :exit_station, :journeys
 
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 1
+  MINIMUM_CHARGE = 1
 
   def initialize
     @balance = 0
@@ -31,7 +32,10 @@ attr_reader :balance, :entry_station, :exit_station, :journeys
   def touch_out(abc)
     @exit_station = abc
     @journeys << { :entry_station =>  @entry_station, :exit_station => @exit_station }
+    deduct(MINIMUM_CHARGE)
     @entry_station = nil
+    @exit_station = nil
+
   end
 
   private

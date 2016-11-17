@@ -11,7 +11,7 @@ describe Oystercard do
         expect(oyster.balance).to eq 0
       end
     end
-    
+
 
     context "topping up" do
 
@@ -40,6 +40,13 @@ describe Oystercard do
         expect(oyster.balance).to eq 5
       end
 
+      it 'it should deduct a minimum charge from the card' do
+        card = Oystercard.new
+        card.top_up(10)
+        card.touch_in('waterloo')
+        expect{card.touch_out('aldgate')}.to change(card, :balance).by -Oystercard::MINIMUM_CHARGE
+
+      end
     end
 
 
