@@ -27,13 +27,9 @@ MINIMUM_FARE = 1
 
   end
 
-
-
-
-
-  # def calculating_fare(balance)
-  #   @balance = balance
-  #     @balance -= MINIMUM_FARE
-  # end
+   def calculating_fare(balance)
+     @balance = balance
+     @balance -= MINIMUM_FARE
+   end
 
 end
